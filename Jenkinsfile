@@ -15,7 +15,7 @@ pipeline {
                  script{
                         dir("terraform")
                         {
-                           git branch: 'main', git "https://github.com/praveenchary17/shadnagar.git"
+                           git "https://github.com/praveenchary17/shadnagar.git"
                         }
                     }
                 }
