@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "terraform_state" {
   #S3 bucket name should be unique in a region
-  bucket = "terraform-state-demo3"
+  bucket = "terraformsaregudem"
   #Prevent accidental deletion
   lifecycle {
     prevent_destroy = true
