@@ -1,13 +1,15 @@
 pipeline {
     agent any
-    
+    environment {
+        TF_VAR_region = "us-east-1"
+        TF_VAR_instance_type = "t2.micro"
+    }
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/praveenchary17/shadnagar.git'
+                checkout scm
             }
         }
-        
         stage('Terraform Init') {
             steps {
                 dir('terraform') {
@@ -15,21 +17,25 @@ pipeline {
                 }
             }
         }
-        
-        stage('Terraform Plan') {
-            steps {
-                dir('terraform') {
-                    sh 'terraform plan'
-                }
-            }
-        }
-        
         stage('Terraform Apply') {
+            when {
+                branch 'master'
+            }
             steps {
                 dir('terraform') {
                     sh 'terraform apply -auto-approve'
                 }
             }
-        }    
+        }
+        stage('Terraform Destroy') {
+            when {
+                branch 'master'
+            }
+            steps {
+                dir('terraform') {
+                    sh 'terraform destroy -auto-approve'
+                }
+            }
+        }
     }
 }
